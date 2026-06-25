@@ -1,9 +1,58 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+h1 {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-bold);
+}
+
+h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+}
+
+p {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+}
+
+label{
+    display: block;
+    color: var(--color-slate-700);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: .5rem;
+}
+
+input, select, textarea{
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: .5rem 1rem;
+    border: 2px solid var(--color-slate-400);
+    border-radius: .5rem;
+    background-color: var(--color-slate-200);
+    transition: all .3s ease;
+}
+
+input:focus, select:focus, textarea:focus{
+    border:2px solid var(--color-green-400);
+    outline: none;
 }
