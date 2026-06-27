@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Loan;
+use App\Models\LoanPayment;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class LoanController extends Controller
 {
@@ -14,6 +17,7 @@ class LoanController extends Controller
     public function index()
     {
         $loans = Loan::with('user')->latest()->paginate(10);
+
         return view('admin.loans.index', compact('loans'));
     }
 
@@ -23,6 +27,7 @@ class LoanController extends Controller
     public function create()
     {
         $members = User::where('role', 'member')->get();
+
         return view('admin.loans.create', compact('members'));
     }
 
@@ -41,9 +46,46 @@ class LoanController extends Controller
         $validated['status'] = 'belum_lunas';
 
         Loan::create($validated);
-        
+
         return redirect()->route('loans.index')
             ->with('success', 'Data pinjaman berhasil dicatat!');
+    }
+
+    public function pay(Loan $loan)
+    {
+        return view('admin.loans.pay', compact('loan'));
+    }
+
+    public function storePayment(Request $request, Loan $loan)
+    {
+        if ($request->amount_paid > $loan->remaining_loan) {
+            throw ValidationException::withMessages(['error' => 'Jumlah pembayaran melebihi jumlah pinjaman']);
+        }
+
+        $request->validate([
+            'amount_paid' => 'required|numeric|min:1000|max:'.$loan->remaining_loan,
+            'payment_date' => 'required|date',
+            'note' => 'nullable|string|max:255',
+        ]);
+
+        DB::transaction(function () use ($request, $loan) {
+            LoanPayment::create([
+                'loan_id' => $loan->id,
+                'amount_paid' => $request->amount_paid,
+                'payment_date' => $request->payment_date,
+                'note' => $request->note,
+            ]);
+
+            $loan->remaining_loan -= $request->amount_paid;
+
+            if ($loan->remaining_loan <= 0) {
+                $loan->status = 'lunas';
+            }
+
+            $loan->save();
+        });
+
+        return redirect()->route('loans.index')->with('success', 'Pembayaran Pinjaman Berhasil');
     }
 
     /**

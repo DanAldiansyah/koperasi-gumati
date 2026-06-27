@@ -14,12 +14,6 @@ class LoanSeeder extends Seeder
      */
     public function run(): void
     {
-        Loan::create([
-            'user_id' => 1,
-            'amount_loaned' => 10000000.00,
-            'remaining_loan' => 10000000.00,
-            'loan_date' => Carbon::now()->subMonth(),
-            'status' => 'belum_lunas'
-        ]);
+
     }
 }

@@ -13,7 +13,7 @@
             @csrf
 
             <div>
-                <label for="user_id" class="block text-sm font-semibold text-slate-700 mb-2">Nama Anggota</label>
+                <label for="user_id">Nama Anggota</label>
                 <select name="user_id" id="user_id" required>
                     <option value="" disabled selected>-- Pilih Anggota --</option>
                     @foreach ($members as $member)
@@ -32,7 +32,7 @@
 
             <div>
                 <label for="loan_date" class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Pinjam</label>
-                <input type="date" name="loan_date" id="loan_date" required value="{{ date('Y-m-d') }}">
+                <input type="date" name="loan_date" required value="{{ date('Y-m-d') }}">
             </div>
 
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">

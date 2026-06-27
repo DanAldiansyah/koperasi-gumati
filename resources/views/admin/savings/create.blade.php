@@ -39,12 +39,12 @@
                 <label>Jenis Simpanan</label>
                 <div class="flex gap-6 my-2">
                     <label class="inline-flex! justify-center items-center cursor-pointer">
-                        <input type="radio" name="type" value="pokok" class="m-0! w-4 h-4" required
+                        <input type="radio" name="type" value="pokok" class="m-0! w-4! h-4! cursor-pointer" required
                             {{ old('type') == 'pokok' ? 'checked' : '' }}>
                         <span class="ml-2 text-sm text-slate-700 font-medium">Pokok</span>
                     </label>
                     <label class="inline-flex! justify-center items-center cursor-pointer">
-                        <input type="radio" name="type" value="wajib" class="m-0! w-4 h-4"
+                        <input type="radio" name="type" value="wajib" class="m-0! w-4! h-4! cursor-pointer"
                             {{ old('type') == 'wajib' ? 'checked' : '' }}>
                         <span class="ml-2 text-sm text-slate-700 font-medium">Wajib</span>
                     </label>
@@ -60,14 +60,14 @@
             </div>
 
             <div>
-                <label for="transaction_date" class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Setor</label>
+                <label for="transaction_date">Tanggal Setor</label>
                 <input type="date" name="transaction_date" required
                     value="{{ old('transaction_date', date('Y-m-d')) }}">
             </div>
 
             <div>
-                <label for="notes" class="block text-sm font-semibold text-slate-700 mb-2">Keterangan (Opsional)</label>
-                <textarea name="note" rows="2" placeholder="Catatan (Opsional)"></textarea>
+                <label for="notes">Keterangan (Opsional)</label>
+                <textarea name="note" rows="2" placeholder="Catatan Opsional"></textarea>
             </div>
 
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">

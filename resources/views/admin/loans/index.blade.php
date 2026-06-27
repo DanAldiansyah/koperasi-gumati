@@ -5,8 +5,8 @@
 @section('content')
     <div class="flex justify-between items-center mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-slate-950">Piutang Pinjaman</h1>
-            <p class="text-sm text-slate-500">Daftar anggota yang memiliki pinjaman berjalan.</p>
+            <h1 class="text-slate-950">Piutang Pinjaman</h1>
+            <p class="text-slate-500">Daftar anggota yang memiliki pinjaman berjalan.</p>
         </div>
         <a href="{{ route('loans.create') }}"
             class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg text-sm shadow-xs transition">
@@ -29,6 +29,7 @@
                     <th class="p-4">Total Pinjaman</th>
                     <th class="p-4">Sisa Pinjaman</th>
                     <th class="p-4">Status</th>
+                    <th class="p-4">Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-sm text-slate-700 divide-y divide-slate-100">
@@ -44,6 +45,16 @@
                                 class="px-2 py-1 text-xs font-semibold rounded-md {{ $loan->status === 'lunas' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-amber-50 text-rose-700 border border-rose-200' }}">
                                 {{ $loan->status === 'lunas' ? 'Lunas' : 'Belum Lunas' }}
                             </span>
+                        </td>
+                        <td class="p-4 text-center">
+                            @if ($loan->status !== 'lunas')
+                                <a href="{{ route('loans.pay', $loan->id) }}"
+                                    class="inline-block bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1.5 px-3 rounded-md shadow-xs transition">
+                                    Bayar Angsuran
+                                </a>
+                            @else
+                                <span class="text-xs text-slate-400 font-medium italic">Selesai</span>
+                            @endif
                         </td>
                     </tr>
                 @empty
