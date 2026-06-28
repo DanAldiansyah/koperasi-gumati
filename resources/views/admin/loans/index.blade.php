@@ -47,14 +47,32 @@
                             </span>
                         </td>
                         <td class="p-4 text-center">
-                            @if ($loan->status !== 'lunas')
-                                <a href="{{ route('loans.pay', $loan->id) }}"
-                                    class="inline-block bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1.5 px-3 rounded-md shadow-xs transition">
-                                    Bayar Angsuran
-                                </a>
-                            @else
-                                <span class="text-xs text-slate-400 font-medium italic">Selesai</span>
-                            @endif
+                            <div class="flex gap-2 items-center">
+                                <div>
+                                    @if ($loan->status !== 'lunas')
+                                        <a href="{{ route('loans.pay', $loan->id) }}"
+                                            class="block bg-green-600 hover:bg-green-700 text-slate-50 font-bold py-2 px-4 rounded-md transition">
+                                            Bayar Angsuran
+                                        </a>
+                                    @endif
+                                </div>
+                                <div>
+                                    <a href="{{ route('loans.edit', $loan->id) }}"
+                                        class="block bg-yellow-600 hover:bg-yellow-700 text-slate-50 font-bold py-2 px-4 rounded-md transition">
+                                        Edit
+                                    </a>
+                                </div>
+                                <div>
+                                    <form action="{{ route('loans.destroy', $loan->id) }}" method="POST"
+                                        id="delete-form-{{ $loan->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            class="px-4 py-2 text-slate-50 font-bold bg-rose-600 hover:bg-rose-700 rounded-md transition cursor-pointer"
+                                            onclick="confirmDelete({{ $loan->id }})" type="button">Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @empty

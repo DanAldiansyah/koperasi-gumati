@@ -52,4 +52,11 @@ class AdminController extends Controller
 
         return redirect()->route('admin.index')->with('success', 'Berhasil Menambahkan Anggota');
     }
+
+    public function destroy(string $id){
+        User::destroy($id);
+
+        return redirect()->route('admin.index')
+            ->with('success', 'Data Member Berhasil Dihapus');
+    }
 }

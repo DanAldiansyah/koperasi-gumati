@@ -58,7 +58,8 @@ class SavingController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $saving = Saving::findOrFail($id);
+        return view('admin.savings.edit', compact('saving'));
     }
 
     /**
@@ -66,7 +67,9 @@ class SavingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $savings = Saving::findOrFail($id);
+        $savings->update($request->all());
+        return redirect()->route('savings.index');
     }
 
     /**
@@ -74,6 +77,8 @@ class SavingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Saving::destroy($id);
+        return redirect()->route('savings.index')
+            ->with('success', 'Berhasil Hapus Simpanan');
     }
 }

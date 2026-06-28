@@ -101,7 +101,8 @@ class LoanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $loan = Loan::findOrFail($id);
+        return view('admin.loans.edit', compact('loan'));
     }
 
     /**
@@ -109,7 +110,15 @@ class LoanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $loan = Loan::findOrFail($id);
+        $loan->update([
+            'amount_loaned' => $request->amount_loaned,
+            'remaining_loan' => $request->amount_loaned,
+            'loan_date' => $request->loan_date
+        ]);
+
+        return redirect()->route('loans.index')
+            ->with('success', 'Berhasil Edit Pinjaman');
     }
 
     /**
@@ -117,6 +126,8 @@ class LoanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Loan::destroy($id);
+        return redirect()->route('loans.index')
+            ->with('success', 'Berhasil Hapus Pinjaman');
     }
 }

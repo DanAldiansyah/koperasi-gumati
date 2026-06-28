@@ -29,6 +29,7 @@
                     <th class="p-4">Jenis</th>
                     <th class="p-4">Nominal</th>
                     <th class="p-4">Keterangan</th>
+                    <th class="p-4">Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-sm text-slate-700 divide-y divide-slate-100">
@@ -51,7 +52,26 @@
                         </td>
                         <td class="p-4 text-slate-900">Rp {{ number_format($saving->amount, 0, ',', '.') }}</td>
                         <td class="p-4 text-slate-900">{{ $saving->note ?? '-' }}</td>
-                        
+                        <td class="p-4">
+                            <div class="flex items-center gap-2">
+                                <div>
+                                    <a href="{{ route('savings.edit', $saving->id) }}"
+                                        class="block bg-yellow-600 hover:bg-yellow-700 text-slate-50 font-bold py-2 px-4 rounded-md transition">
+                                        Edit
+                                    </a>
+                                </div>
+                                <div>
+                                    <form action="{{ route('savings.destroy', $saving->id) }}" method="POST"
+                                        id="delete-form-{{ $saving->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            class="px-4 py-2 text-slate-50 font-bold bg-rose-600 hover:bg-rose-700 rounded-md transition cursor-pointer"
+                                            onclick="confirmDelete({{ $saving->id }})" type="button">Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>

@@ -74,6 +74,14 @@
 
     </div>
 
+    <script>
+        function confirmDelete(id) {
+            if (confirm('Data Yang Dihapus Tidak Dapat Dikembalikan. Yakin Untuk Menghapus?')) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        }
+    </script>
+
 </body>
 
 </html>

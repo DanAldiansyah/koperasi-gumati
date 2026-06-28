@@ -81,6 +81,7 @@
                         <th class="p-4 text-right">Simp. Pokok</th>
                         <th class="p-4 text-right">Simp. Wajib</th>
                         <th class="p-4 text-right">Sisa Pinjaman (Piutang)</th>
+                        <th class="p-4">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-sm text-slate-700 divide-y divide-slate-100">
@@ -97,6 +98,16 @@
                             <td
                                 class="p-4 text-right font-bold {{ ($member->total_piutang ?? 0) > 0 ? 'text-rose-600' : 'text-slate-400' }}">
                                 Rp {{ number_format($member->total_piutang ?? 0, 0, ',', '.') }}
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.destroy', $member->id) }}" method="POST"
+                                    id="delete-form-{{ $member->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        class="px-4 py-2 text-slate-50 font-bold bg-rose-600 hover:bg-rose-700 rounded-md transition cursor-pointer"
+                                        onclick="confirmDelete({{ $member->id }})" type="button">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @empty
