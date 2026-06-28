@@ -53,6 +53,19 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Berhasil Menambahkan Anggota');
     }
 
+    public function edit(string $id){
+        $member = User::findOrFail($id);
+        return view('admin.dashboard.edit', compact('member'));
+    }
+
+    public function update(Request $request, string $id){
+        $member = User::findOrFail($id);
+        $member->update($request->all());
+        
+        return redirect()->route('admin.index')
+            ->with('success', 'Data Anggota Berhasil Di-Update');
+    }
+
     public function destroy(string $id){
         User::destroy($id);
 

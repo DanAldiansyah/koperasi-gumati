@@ -100,14 +100,25 @@
                                 Rp {{ number_format($member->total_piutang ?? 0, 0, ',', '.') }}
                             </td>
                             <td>
-                                <form action="{{ route('admin.destroy', $member->id) }}" method="POST"
-                                    id="delete-form-{{ $member->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button
-                                        class="px-4 py-2 text-slate-50 font-bold bg-rose-600 hover:bg-rose-700 rounded-md transition cursor-pointer"
-                                        onclick="confirmDelete({{ $member->id }})" type="button">Hapus</button>
-                                </form>
+                                <div class="flex items-center gap-2">
+                                    <div>
+                                        <a href="{{ route('admin.edit', $member->id) }}"
+                                            class="block bg-yellow-600 hover:bg-yellow-700 text-slate-50 font-bold py-2 px-4 rounded-md transition">
+                                            Edit
+                                        </a>
+                                    </div>
+                                    <div>
+
+                                        <form action="{{ route('admin.destroy', $member->id) }}" method="POST"
+                                            id="delete-form-{{ $member->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button
+                                                class="px-4 py-2 text-slate-50 font-bold bg-rose-600 hover:bg-rose-700 rounded-md transition cursor-pointer"
+                                                onclick="confirmDelete({{ $member->id }})" type="button">Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @empty
