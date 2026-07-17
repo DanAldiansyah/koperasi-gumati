@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <form action="{{ route('loans.store-payment', $loan->id) }}" method="POST" class="p-6 space-y-5">
+        <form action="{{ route('loans.storePayment', $loan->id) }}" method="POST" class="p-6 space-y-5">
             @csrf
 
             <div>
@@ -29,15 +29,15 @@
                     <span class="absolute top-2.5 left-3 text-slate-400 text-sm font-medium">Rp</span>
                     <input class="pl-9!" name="amount_paid" type="text" placeholder="0" required autocomplete="off">
                 </div>
+                @error('amount_paid')
+                    <div class="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-lg text-sm mb-4">
+                        {{ $message }}
+                    </div>
+                @enderror
                 <p class="text-slate-400 mt-1">Maksimal input pembayaran: Rp
                     {{ number_format($loan->remaining_loan, 0, ',', '.') }}</p>
             </div>
 
-            @error('error')
-                <div class="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-lg text-sm mb-4">
-                    {{ $message }}
-                </div>
-            @enderror
 
             <div>
                 <label for="payment_date">Tanggal Bayar</label>

@@ -43,30 +43,34 @@ class AdminController extends Controller
             'password' => 'required|string|min:8',
             'role' => 'member',
         ]);
-
-        User::create([
-            'name' => $validated['name'],
-            'phone_number' => $validated['phone_number'],
-            'password' => Hash::make($validated['password']),
-        ]);
-
+        $validated['password'] = Hash::make($validated['password']);
+        
+        User::create($validated);
         return redirect()->route('admin.index')->with('success', 'Berhasil Menambahkan Anggota');
     }
 
-    public function edit(string $id){
+    public function edit(string $id)
+    {
         $member = User::findOrFail($id);
         return view('admin.dashboard.edit', compact('member'));
     }
 
-    public function update(Request $request, string $id){
+    public function update(Request $request, string $id)
+    {
         $member = User::findOrFail($id);
-        $member->update($request->all());
-        
+        $validated = $request->validate([
+            'name' => 'required|string|min:3',
+            'phone_number' => 'required|string|min:10',
+        ]);
+
+        $member->update($validated);
+
         return redirect()->route('admin.index')
             ->with('success', 'Data Anggota Berhasil Di-Update');
     }
 
-    public function destroy(string $id){
+    public function destroy(string $id)
+    {
         User::destroy($id);
 
         return redirect()->route('admin.index')

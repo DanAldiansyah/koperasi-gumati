@@ -21,6 +21,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('loans', LoanController::class);
 
     Route::get('loans/{loan}/pay', [LoanController::class, 'pay'])->name('loans.pay');
-    Route::post('loans/{loan}/pay', [LoanController::class, 'storePayment'])->name('loans.store-payment');
-
+    Route::post('loans/{loan}/pay', [LoanController::class, 'storePayment'])->name('loans.storePayment');
 });

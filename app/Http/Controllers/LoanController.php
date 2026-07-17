@@ -7,7 +7,6 @@ use App\Models\LoanPayment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class LoanController extends Controller
 {
@@ -39,7 +38,7 @@ class LoanController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'amount_loaned' => 'required|numeric|min:1000',
-            'loan_date' => 'required|date',
+            'loan_date' => 'required|date_format:Y-m-d',
         ]);
 
         $validated['remaining_loan'] = $validated['amount_loaned'];
@@ -58,14 +57,13 @@ class LoanController extends Controller
 
     public function storePayment(Request $request, Loan $loan)
     {
-        if ($request->amount_paid > $loan->remaining_loan) {
-            throw ValidationException::withMessages(['error' => 'Jumlah pembayaran melebihi jumlah pinjaman']);
-        }
-
         $request->validate([
-            'amount_paid' => 'required|numeric|min:1000|max:'.$loan->remaining_loan,
+            'amount_paid' => 'required|numeric|min:1000|max:' . $loan->remaining_loan,
             'payment_date' => 'required|date',
             'note' => 'nullable|string|max:255',
+        ], [
+            'amount_paid.numeric' => 'Masukan pembayaran dengan valid',
+            'amount_paid.max' => 'Jumlah Pembayaran melebihi sisa pinjaman',
         ]);
 
         DB::transaction(function () use ($request, $loan) {
@@ -111,10 +109,20 @@ class LoanController extends Controller
     public function update(Request $request, string $id)
     {
         $loan = Loan::findOrFail($id);
+
+        $validated = $request->validate([
+            'amount_loaned' => 'required|numeric|min:1000',
+            'loan_date' => 'required|date_format:Y-m-d',
+        ]);
+
+        $total_paid = LoanPayment::where('loan_id', $loan->id)->sum('amount_paid');
+        $remaining = $validated['amount_loaned'] - $total_paid;
+
         $loan->update([
-            'amount_loaned' => $request->amount_loaned,
-            'remaining_loan' => $request->amount_loaned,
-            'loan_date' => $request->loan_date
+            'amount_loaned' => $validated['amount_loaned'],
+            'remaining_loan' => max(0, $remaining),
+            'loan_date' => $validated['loan_date'],
+            'status' => $remaining <= 0 ? 'lunas' : 'belum_lunas',
         ]);
 
         return redirect()->route('loans.index')

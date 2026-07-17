@@ -23,11 +23,6 @@
                 <input type="text" name="phone_number" value="{{ $member->phone_number }}" required autocomplete="off">
             </div>
 
-            <div>
-                <label for="pasword">Masukan Password Baru</label>
-                <input type="password" name="password" value="{{ $member->password }}" required autocomplete="off">
-            </div>
-
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
                 <a href="{{ route('admin.index') }}"
                     class="bg-slate-50 border border-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg text-sm hover:bg-slate-50">Batal</a>
